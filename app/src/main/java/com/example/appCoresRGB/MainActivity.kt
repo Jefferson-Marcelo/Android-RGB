@@ -1,24 +1,25 @@
 package com.example.appfilmes
 
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appCoresRGB.AddCorActivity
 import com.example.appfilmes.adapter.AdapterCores
+import com.example.appfilmes.databinding.ActivityAddcorBinding
 import com.example.appfilmes.databinding.ActivityMainBinding
-import com.example.appfilmes.model.Cores
+import com.example.appfilmes.model.Cor
 
 
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val listaCores: MutableList<Cores>  = mutableListOf()
+    private val bindingCor: ActivityAddcorBinding by lazy { ActivityAddcorBinding.inflate(layoutInflater) }
+    private val listaCores: MutableList<Cor>  = mutableListOf()
     private val adapterCores : AdapterCores = AdapterCores(this, listaCores)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         recyclerViewCores.layoutManager = LinearLayoutManager(this)
         recyclerViewCores.setHasFixedSize(true)
         recyclerViewCores.adapter = adapterCores
-        //coresDaLista()
+
 
         val swipe = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or
@@ -58,63 +59,25 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerViewCores)
 
         binding.btAdd.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Nova cor")
+            val paraTelaDeCor = Intent(this, AddCorActivity::class.java )
+            startActivity(paraTelaDeCor)
+        }
 
+        bindingCor.adicionar.setOnClickListener {
+            val nome = bindingCor.etNomeCor.text.toString()
+            val red = bindingCor.etRed.text.toString().toInt()
+            val green = bindingCor.etGreen.text.toString().toInt()
+            val blue = bindingCor.etBlue.text.toString().toInt()
 
-            val input = EditText(this)
-            input.inputType = InputType.TYPE_CLASS_TEXT
-            builder.setView(input)
+            val cor = Cor(nome, Color.rgb(red, green, blue))
 
-            builder.setPositiveButton("Adicionar") { dialog, _ ->
-                val novaCor = Cores(input.text.toString())
-                listaCores.add(novaCor)
-                adapterCores.notifyDataSetChanged()
-                dialog.dismiss()
-            }
+            listaCores.add(cor)
+            adapterCores.notifyDataSetChanged()
+            finish()
 
-            builder.setNegativeButton("Cancelar") { dialog, _ ->
-                dialog.cancel()
-            }
-            builder.show()
         }
     }
 
 }
 
-/*
-    private fun coresDaLista(){
-        val cor1 = Cores("Marrom")
-        listaCores.add(cor1)
-        val cor2 = Cores("rosa")
-        listaCores.add(cor2)
-        val cor3 = Cores("Verde")
-        listaCores.add(cor3)
-        val cor4 = Cores("Azul")
-        listaCores.add(cor4)
-        val cor5 = Cores("Amarelo")
-        listaCores.add(cor5)
-        val cor6 = Cores("Preto")
-        listaCores.add(cor6)
 
-    }
-
-    fun add(){
-
-        val builder = AlertDialog.Builder(this).apply {
-            setTitle("Novo Nome!")
-            setMessage("Digite o novo nome")
-            setView(this@MainActivity.etNome)
-            setPositiveButton("Salvar", OnClick())
-            setNegativeButton("Cancelar", null)
-        }
-        builder.create().show()
-    }
-
-    inner class OnClick: DialogInterface.OnClickListener {
-        override fun onClick(dialog: DialogInterface?, which: Int) {
-            val nome = this@MainActivity.etNome.text.toString()
-            (this@MainActivity.rvNomes.adapter as MyAdapter).add(nome)
-        }
-    }
-*/

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etNomeCor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome da cor"/>
+
+    <EditText
+        android:id="@+id/etRed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor do R (0-255)"/>
+
+    <EditText
+        android:id="@+id/etGreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor do G (0-255)"/>
+
+    <EditText
+        android:id="@+id/etBlue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor do B (0-255)"/>
+
+    <Button
+        android:id="@+id/adicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicione a cor"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
